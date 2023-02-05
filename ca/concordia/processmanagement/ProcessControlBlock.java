@@ -7,4 +7,8 @@ public class ProcessControlBlock {
         PID = pid;
         process_status = status;
     }
+
+    public int getPID() {
+        return PID;
+    }
 }
