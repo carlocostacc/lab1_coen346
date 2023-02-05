@@ -16,21 +16,24 @@ public class PIDManager {
 
     }
     int allocatePid(){
+        // TODO fix error detection the function doesn't return an error after creating more than 200 processes
+        // TODO Make the bitSet list start at value 200 and end at value 500
         try{
             int index = bitSet.nextClearBit(0);
-            if(index <= 500){
+            if(index <= 200){
                 bitSet.flip(index);
                 return index;
             }
             else{
 
-                throw new ArithmeticException("unable to allocate pid");
+                System.out.println("unable to allocate pid");
                 }
 
         }
         catch(Exception e){
             return 0;
         }
+        return 0;
     }
 
     void releasePid(int pid){
