@@ -7,6 +7,14 @@ public class main {
             masterManager.create_process();
         }
         masterManager.Terminate_Process(499);
+        masterManager.Terminate_Process(498);
+
+        masterManager.create_process();
+        masterManager.create_process();
+        masterManager.create_process();
+
+
         masterManager.Print_Ready_Queue();
+
     }
 }

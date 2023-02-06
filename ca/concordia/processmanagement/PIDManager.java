@@ -20,19 +20,21 @@ public class PIDManager {
         // TODO Make the bitSet list start at value 200 and end at value 500
         try{
             int index = bitSet.nextClearBit(MIN_PID);
+            System.out.println("index : " + index);
             if(index <= MAX_PID){
                 bitSet.flip(index);
                 return index;
             }
             else{
 
-                throw new ArithmeticException("unable to allocate pid");
+                throw new ArithmeticException("unable to allocate pid lol");
                 }
 
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println(e);
+            System.exit(1);
             return 505;
         }
 
