@@ -25,7 +25,7 @@ public class Master_Manager implements Process_Manager {
             int pid = pidManager.allocatePid();
             boolean process_status = true;
             ProcessControlBlock processControlBlock = new ProcessControlBlock(pid, process_status);
-            System.out.println("this is the pid " + pid);
+            if(pid!=505)System.out.println("this is the pid " + pid);
             return pid;}
         catch(Exception e) {
             throw new ArithmeticException("something went wrong unable to create " +
@@ -50,12 +50,16 @@ public class Master_Manager implements Process_Manager {
         // we need to remove element from the queue to find the specific process and then add the
         // removed items back once we found the correct process control bloc k
         Queue<ProcessControlBlock> temp = new LinkedList<>();
-        for (int i =0; i < ready_queue.size(); i++){
+        int size = ready_queue.size();
+        int size2;
+        for (int i =0; i < size; i++){
             ProcessControlBlock block  = ready_queue.remove();
             int element = block.getPID();
+            System.out.println("PID : " + element);
             if(element == pid){
+                size2 = temp.size();
                 // put all the ProcessControlBlocks that are in temp back in the ready queue
-                for (int y =0;y < temp.size(); y++){
+                for (int y =0;y < size2; y++){
                     ready_queue.add(temp.remove());
                 }
                 System.out.println("the process was terminated pid :" + pid);
@@ -64,22 +68,26 @@ public class Master_Manager implements Process_Manager {
             }
             temp.add(block);
         }
-        for (int y =0;y < temp.size(); y++){
+        size2 = temp.size();
+        for (int y =0;y < size2; y++){
             ready_queue.add(temp.remove());
         }
-        if (!succes) {System.out.println("unable to find the request pid");}
+        if (!succes) {System.out.println("unable to find the requested pid");}
     }
     public void Print_Ready_Queue(){
         System.out.println("size of the queue: " + ready_queue.size());
         Queue<ProcessControlBlock> temp = new LinkedList<>();
         List<Integer> list=new ArrayList<Integer>();
-        for(int i = 0; i < ready_queue.size(); i++){
+        int size  = ready_queue.size();
+        for(int i = 0; i < size; i++){
             ProcessControlBlock process_block = ready_queue.remove();
             int pid = process_block.getPID();
             temp.add(process_block);
             list.add(pid);
         }
-        for(int i = 0; i < ready_queue.size(); i++){
+        System.out.println(list);
+        size = temp.size();
+        for(int i = 0; i < size; i++){
             ProcessControlBlock process_block = temp.remove();
             ready_queue.add(process_block);
         }

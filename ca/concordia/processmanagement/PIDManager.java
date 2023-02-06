@@ -5,7 +5,7 @@ import java.util.BitSet;
 public class PIDManager {
     static final int MIN_PID = 300;
     static final int MAX_PID = 500;
-    BitSet bitSet = new BitSet();
+    BitSet bitSet = new BitSet(MAX_PID);
     void allocateMap(){
         try{
             bitSet.clear();
@@ -19,21 +19,23 @@ public class PIDManager {
         // TODO fix error detection the function doesn't return an error after creating more than 200 processes
         // TODO Make the bitSet list start at value 200 and end at value 500
         try{
-            int index = bitSet.nextClearBit(0);
-            if(index <= 200){
+            int index = bitSet.nextClearBit(MIN_PID);
+            if(index <= MAX_PID){
                 bitSet.flip(index);
                 return index;
             }
             else{
 
-                System.out.println("unable to allocate pid");
+                throw new ArithmeticException("unable to allocate pid");
                 }
 
         }
         catch(Exception e){
-            return 0;
+            e.printStackTrace();
+            System.out.println(e);
+            return 505;
         }
-        return 0;
+
     }
 
     void releasePid(int pid){
