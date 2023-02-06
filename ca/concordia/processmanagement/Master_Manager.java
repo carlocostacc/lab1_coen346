@@ -9,49 +9,14 @@ public class Master_Manager implements Process_Manager {
     PIDManager PID_MANAGER = new PIDManager();
 
     @Override
-    public void terminateProcess(int pid, PIDManager pidManager) {
+    public void terminateProcess(int pid) {
         try{
-            pidManager.releasePid(pid);}
+            PID_MANAGER.releasePid(pid);}
         catch(Exception e){
             e.printStackTrace();
-            System.out.println( "something went wrong !!!!" + e);
+            System.out.println( "something went wrong !!!! penis" + e);
         }
-
-    }
-
-    @Override
-    public int createProcess(PIDManager pidManager) {
-        try{
-            int pid = pidManager.allocatePid();
-            boolean process_status = true;
-            ProcessControlBlock processControlBlock = new ProcessControlBlock(pid, process_status);
-            if(pid!=500)System.out.println("this is the pid " + pid);
-            return pid;}
-        catch(Exception e) {
-            throw new ArithmeticException("something went wrong unable to create " +
-                    "and allocate the process");
-        }
-    }
-
-    public void create_process(){
         try {
-            int pid = createProcess(PID_MANAGER);
-
-            ProcessControlBlock controlBlock = new ProcessControlBlock(pid, true);
-            ready_queue.add(controlBlock);
-            if(pid > 499)throw new ArithmeticException("something went wrong unable to create " +
-                    "and allocate the process");
-        }
-        catch(Exception e){
-
-            e.printStackTrace();
-            System.out.println( "something went wrong !!!!" + e);
-        }
-    }
-
-    public void Terminate_Process(int pid){
-        try {
-            terminateProcess(pid, PID_MANAGER);
             boolean succes = false;
             // we need to remove element from the queue to find the specific process and then add the
             // removed items back once we found the correct process control bloc k
@@ -84,8 +49,35 @@ public class Master_Manager implements Process_Manager {
             e.printStackTrace();
             System.out.println( "something went wrong !!!!" + e);
         }
-
     }
+
+    @Override
+    public void terminateAllProcess() {
+
+        PID_MANAGER.allocateMap();
+        ready_queue.clear();
+    }
+
+    @Override
+    public int createProcess() {
+
+        try {
+            int pid = PID_MANAGER.allocatePid();
+            boolean process_status = true;
+            ProcessControlBlock processControlBlock = new ProcessControlBlock(pid, process_status);
+            System.out.println("this is the pid " + pid);
+            ProcessControlBlock controlBlock = new ProcessControlBlock(pid, true);
+            ready_queue.add(controlBlock);
+            if (pid > 499) throw new ArithmeticException("something went wrong unable to create " +
+                    "and allocate the process");
+            return pid;
+        } catch (Exception e) {
+            throw new ArithmeticException("something went wrong unable to create " +
+                    "and allocate the process");
+        }
+    }
+
+
     public void Print_Ready_Queue(){
         System.out.println("size of the queue: " + ready_queue.size());
         Queue<ProcessControlBlock> temp = new LinkedList<>();
